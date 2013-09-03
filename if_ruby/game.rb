@@ -1,8 +1,7 @@
-require 'set'
 require 'yaml'
 
-require 'ifruby/parser'
-require 'ifruby/room'
+require 'if_ruby/parser'
+require 'if_ruby/room'
 
 module IFRuby
   class Game
@@ -13,7 +12,7 @@ module IFRuby
     def initialize
       @parser = Parser.new
 
-      @rooms = {}
+      @rooms = EntityGroup.new
 
       @required_files = Set.new
     end
@@ -32,9 +31,8 @@ module IFRuby
 
   def room(name, &block)
     room = Room.new(name)
-    room.instance_eval(&block) if block_given?
-    raise %{A room with the specified name ("#{name}") already exists.} if rooms[name]
-    rooms[name.intern] = room
+    room.instance_eval(&block) if block
+    rooms.add(room)
   end
 end
 

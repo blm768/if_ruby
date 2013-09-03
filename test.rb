@@ -1,6 +1,6 @@
 $LOAD_PATH << Dir.pwd
 
-require 'ifruby'
+require 'if_ruby'
 
 include IFRuby
 

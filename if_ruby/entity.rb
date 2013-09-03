@@ -4,6 +4,8 @@ module IFRuby
   class Entity
     attr_reader :name
     attr_reader :alt_names
+    ##
+    #Should not be modified by the user
     attr_accessor :parent
 
     def initialize(name)
@@ -30,11 +32,13 @@ module IFRuby
     end
 
     def to_s
-      name
+      name.to_s
     end
   end
 
   class EntityGroup
+    include Enumerable
+
     def initialize
       @members = {}
       @names = {}
@@ -46,10 +50,11 @@ module IFRuby
 
     def add(entity)
       add_with_name(entity, entity.name)
+      entity.parent = self
     end
 
     ##
-    #Adds an entity under the provided name
+    #Adds an entity under the provided name (utility method for #add)
     #
     #The name should be a symbol.
     def add_with_name(entity, name)
@@ -62,6 +67,7 @@ module IFRuby
         @members[name] = members
       end
 
+      #Note: currently sub-optimal when this method is called multiple times by #add
       names = @names[entity]
       if names
         names.add(name)
@@ -94,18 +100,20 @@ module IFRuby
       @names.keys
     end
 
-    def each_member
+    def each
       @names.each_key do |key|
         yield key
       end
     end
+
+    alias_method :each_member, :each
 
     def length
       @names.length
     end
 
     def to_s
-      members.map{ |m| m.name }.en.conjunction
+      self.map{ |m| m.name }.en.conjunction
     end
   end
 end

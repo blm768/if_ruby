@@ -1,8 +1,12 @@
-room 'Library' do
+library = room 'Library' do
+  description 'You find yourself in a white room. Somehow, it feels like a library.'
+
   thing 'book' do
     description 'An ordinary book'
   end
 end
 
-puts rooms.find_unique('Library').things
+player.location = library
+
+puts library.room_description
 

@@ -1,6 +1,7 @@
 require 'linguistics'
 
 require 'if_ruby/parser'
+require 'if_ruby/player'
 require 'if_ruby/room'
 
 module IFRuby
@@ -8,11 +9,13 @@ module IFRuby
     attr_accessor :parser
 
     attr_accessor :rooms
+    attr_reader :player
 
     def initialize
       @parser = Parser.new
 
       @rooms = EntityGroup.new
+      @player = Player.new
 
       @required_files = Set.new
 
@@ -34,6 +37,7 @@ module IFRuby
       room = Room.new(name)
       room.instance_eval(&block) if block
       rooms.add(room)
+      room
     end
   end
 end

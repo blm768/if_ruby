@@ -41,7 +41,7 @@ module IFRuby
     end
 
     def [](name)
-      return @members[name]
+      return @members[name] || Set.new
     end
 
     def add(entity)
@@ -90,6 +90,10 @@ module IFRuby
       end
     end
 
+    def members
+      @names.keys
+    end
+
     def each_member
       @names.each_key do |key|
         yield key
@@ -98,6 +102,10 @@ module IFRuby
 
     def length
       @names.length
+    end
+
+    def to_s
+      members.map{ |m| m.name }.en.conjunction
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'linguistics'
+
 require 'if_ruby/parser'
 require 'if_ruby/room'
 
@@ -13,24 +15,26 @@ module IFRuby
       @rooms = EntityGroup.new
 
       @required_files = Set.new
+
+      Linguistics.use(:en)
     end
-  end
 
-  def require(filename)
-    return if @required_files.include?(filename)
-    @required_files.add(filename)
-    file = File.open(filename, 'r')
-    instance_eval(file.read, filename)
-  end
+    def require(filename)
+      return if @required_files.include?(filename)
+      @required_files.add(filename)
+      file = File.open(filename, 'r')
+      instance_eval(file.read, filename)
+    end
 
-  def run
+    def run
 
-  end
+    end
 
-  def room(name, &block)
-    room = Room.new(name)
-    room.instance_eval(&block) if block
-    rooms.add(room)
+    def room(name, &block)
+      room = Room.new(name)
+      room.instance_eval(&block) if block
+      rooms.add(room)
+    end
   end
 end
 

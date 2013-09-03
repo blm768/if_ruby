@@ -28,6 +28,10 @@ module IFRuby
     def remove
       @parent.remove(self)
     end
+
+    def to_s
+      name
+    end
   end
 
   class EntityGroup
@@ -84,6 +88,16 @@ module IFRuby
       matches.each do |match|
         return match
       end
+    end
+
+    def each_member
+      @names.each_key do |key|
+        yield key
+      end
+    end
+
+    def length
+      @names.length
     end
   end
 end

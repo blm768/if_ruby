@@ -1,5 +1,3 @@
-require 'yaml'
-
 require 'if_ruby/parser'
 require 'if_ruby/room'
 

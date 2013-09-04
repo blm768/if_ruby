@@ -1,18 +1,21 @@
 require 'linguistics'
 
+require 'if_ruby/display'
 require 'if_ruby/parser'
 require 'if_ruby/player'
 require 'if_ruby/room'
 
 module IFRuby
   class Game
-    attr_accessor :parser
+    attr_reader :parser
+    attr_reader :display
 
     attr_accessor :rooms
     attr_reader :player
 
     def initialize
-      @parser = Parser.new
+      @parser = Parser.new(self)
+      @display = CursesDisplay.new
 
       @rooms = EntityGroup.new
       @player = Player.new
@@ -30,7 +33,12 @@ module IFRuby
     end
 
     def run
-
+      @running = true
+      while @running do
+        command = display.gets
+        parser.parse(command)
+        @running = false
+      end
     end
 
     def room(name, &block)

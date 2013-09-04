@@ -4,9 +4,12 @@ library = room 'Library' do
   thing 'book' do
     description 'An ordinary book'
   end
+  thing 'desk' do
+    description 'An ordinary desk'
+  end
 end
 
 player.location = library
 
-puts library.room_description
+display.puts library.room_description
 

@@ -18,7 +18,7 @@ module IFRuby
     end
 
     def room_description
-      desc = self.description
+      desc = self.description || '[Error: no room description]'
 
       if things.length > 0
         desc << "\n\nYou see "

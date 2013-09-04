@@ -113,7 +113,7 @@ module IFRuby
     end
 
     def to_s
-      self.map{ |m| m.name }.en.conjunction
+      self.to_a.en.conjunction
     end
   end
 end

@@ -13,6 +13,8 @@ verb 'quit' do |words|
   quit
 end
 
+alias_verb 'quit' => 'q'
+
 player.location = library
 
 display.puts library.room_description

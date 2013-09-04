@@ -56,6 +56,10 @@ module IFRuby
       verb.execute = block
       parser.add_verb(verb)
     end
+    
+    def alias_verb(names)
+      parser.alias_verb(name)
+    end
   end
 end
 

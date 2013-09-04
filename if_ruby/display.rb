@@ -37,6 +37,7 @@ module IFRuby
       str = str.to_s
 
       @text_window.addstr(str)
+      @text_window.addch(?\n)
       @text_window.refresh()
     end
 

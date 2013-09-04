@@ -22,13 +22,16 @@ module IFRuby
       verb = verbs[words[0]]
       unless verb
         game.display.puts @unknown_verb_message
+        return
       end
       words = words[0 .. -1]
       verb.execute.call(words)
     end
 
     def add_verb(verb)
-      verbs[verb.name] = verb
+      name = verb.name
+      raise %{The verb "#{name}" already exists.} if verbs[name]
+      verbs[name] = verb
     end
   end
 

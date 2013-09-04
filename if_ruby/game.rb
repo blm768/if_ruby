@@ -37,8 +37,11 @@ module IFRuby
       while @running do
         command = display.gets
         parser.parse(command)
-        @running = false
       end
+    end
+
+    def quit
+      @running = false
     end
 
     def room(name, &block)
@@ -46,6 +49,12 @@ module IFRuby
       room.instance_eval(&block) if block
       rooms.add(room)
       room
+    end
+
+    def verb(name, &block)
+      verb = Verb.new(name)
+      verb.execute = block
+      parser.add_verb(verb)
     end
   end
 end

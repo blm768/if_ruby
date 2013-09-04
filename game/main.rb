@@ -9,6 +9,10 @@ library = room 'Library' do
   end
 end
 
+verb 'quit' do |words|
+  quit
+end
+
 player.location = library
 
 display.puts library.room_description

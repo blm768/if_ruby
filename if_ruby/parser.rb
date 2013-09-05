@@ -17,6 +17,7 @@ module IFRuby
       str.strip!
       if str.length == 0
         game.display.puts @no_input_message
+        return
       end
       words = str.split(' ')
       verb = verbs[words[0]]
@@ -32,6 +33,14 @@ module IFRuby
       name = verb.name
       raise %{The verb "#{name}" already exists.} if verbs[name]
       verbs[name] = verb
+    end
+
+    def alias_verb(names)
+      names.each_pair do |old_name, new_name|
+        verb = verbs[old_name]
+        raise %{Unknown verb "#{old_name}"} unless verb
+        verbs[new_name] = verb
+      end
     end
   end
 

@@ -58,7 +58,7 @@ module IFRuby
     end
     
     def alias_verb(names)
-      parser.alias_verb(name)
+      parser.alias_verb(names)
     end
   end
 end

@@ -22,12 +22,10 @@ module IFRuby
       @attributes = Set.new
     end
 
-    def attribute(att)
-      @attributes.add(att.intern)
-    end
-
-    def remove
-      super.remove
+    def attribute(*atts)
+      atts.each do |att|
+        @attributes.add(att.intern)
+      end
     end
   end
 end

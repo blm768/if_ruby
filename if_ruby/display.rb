@@ -22,6 +22,7 @@ module IFRuby
 
       Curses.crmode()
       @text_window = Curses::Window.new(@height - 2, @width, 1, 0)
+      @text_window.scrollok(true)
       @input_window = Curses::Window.new(1, @width, @height - 1, 0)
       Curses.refresh()
     end

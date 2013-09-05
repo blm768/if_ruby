@@ -6,7 +6,7 @@ module IFRuby
     attr_reader :alt_names
     ##
     #Should not be modified by the user
-    attr_accessor :parent
+    attr_accessor :parent_group
 
     def initialize(name)
       @name = name.intern
@@ -15,10 +15,11 @@ module IFRuby
     
     def description(value = nil, &block)
       if value && block
-        raise "Description cannot be given as both a string and a block."
+        raise 'Description cannot be given as both a string and a block.'
       end
       if value
         @description = value
+        #TODO: use a Proc instead of a method?
       elsif block
         @description = nil
         define_singleton_method(:get_description, &block)
@@ -27,8 +28,12 @@ module IFRuby
       end
     end
 
+    def parent
+      parent_group.owner
+    end
+
     def remove
-      @parent.remove(self)
+      @parent_group.remove(self)
     end
 
     def to_s
@@ -38,11 +43,15 @@ module IFRuby
 
   class EntityGroup
     include Enumerable
+    attr_accessor :owner
 
-    def initialize
+    def initialize(owner)
       @members = {}
       @names = {}
+      @owner = owner
     end
+
+    alias_method :modify, :instance_eval
 
     def [](name)
       return @members[name] || Set.new
@@ -50,7 +59,7 @@ module IFRuby
 
     def add(entity)
       add_with_name(entity, entity.name)
-      entity.parent = self
+      entity.parent_group = self
     end
 
     ##
@@ -83,13 +92,15 @@ module IFRuby
     def remove(entity)
       #TODO: handle semantics of removing an element that is not in the group?
       @names.delete(entity)
-      @members[entity.name].remove(entity)
+      @members[entity.name].delete(entity)
+      entity.parent_group = nil
     end
 
     def find_unique(name)
       name = name.intern
       matches = self[name]
-      return nil unless matches && matches.length == 1
+      return if not matches || matches.length == 0
+      raise %{Unable to find unique entity with name "#{name}" in #{owner}} unless matches.length == 1
       #Return the first (and only) match.
       matches.each do |match|
         return match

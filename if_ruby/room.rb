@@ -8,7 +8,7 @@ module IFRuby
     def initialize(name)
       super(name)
 
-      @things = EntityGroup.new
+      @things = EntityGroup.new(self)
       @links = {}
     end
 
@@ -20,17 +20,36 @@ module IFRuby
     end
 
     def room_description
-      desc = self.description || '[Error: no room description]'
+      desc = self.description
+      if desc
+        desc = desc[0 .. -1]
+      else
+        desc = '[Error: no room description]'
+      end
 
-      if things.length > 0
+      non_player_things = things.reject{ |m| m.is_a?(Player) }
+      if non_player_things.length > 0
         desc << "\n\nYou see "
-        desc << things.reject{ |m| m.is_a?(Player) }.en.conjunction
+        desc << non_player_things.en.conjunction
         desc << '.'
       end
     end
 
-    def link(direction, other_room)
-      links[direction] = game.find_room(other_room)
+    def link(other_room, direction)
+      links[direction] = other_room
+    end
+
+    def get_link(direction)
+      link = links[direction]
+      return unless link
+      #If the link is stored as a string, convert it to a room.
+      unless link.is_a?(Room)
+        link = game.find_room(link)
+        raise %{Unable to find room "#{link}"} unless link
+        links[direction] = link
+      end
+      link
     end
   end
 end
+

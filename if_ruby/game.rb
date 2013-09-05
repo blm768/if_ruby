@@ -1,3 +1,5 @@
+require 'singleton'
+
 require 'linguistics'
 
 require 'if_ruby/display'
@@ -6,7 +8,13 @@ require 'if_ruby/player'
 require 'if_ruby/room'
 
 module IFRuby
+  def game
+    Game.instance
+  end
+
   class Game
+    include Singleton
+
     attr_reader :parser
     attr_reader :display
 
@@ -16,7 +24,7 @@ module IFRuby
     def initialize
       @parser = Parser.new(self)
 
-      @rooms = EntityGroup.new
+      @rooms = EntityGroup.new(self)
       @player = Player.new
 
       @required_files = Set.new
@@ -56,7 +64,7 @@ module IFRuby
     #If given a Room instead of a name, returns the Room
     def find_room(room)
       return room if room.is_a?(Room) || room == nil
-      rooms.find_unique(room)
+      rooms.find_unique(room.to_s)
     end
 
     def room(name, &block)

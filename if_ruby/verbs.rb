@@ -6,6 +6,12 @@ end
 
 alias_verb 'quit' => 'q'
 
+verb 'look' do
+  display.puts player.location.room_description
+end
+
+alias_verb 'look' => 'l'
+
 if true
   directions = [
     :north, :northeast, :east, :southeast,
@@ -24,7 +30,7 @@ if true
     verb direction_str do
       player.go direction
     end
-    alias_verb direction_str => directions_abbrev.to_s
+    alias_verb direction_str => directions_abbrev[index].to_s
   end
 end
 

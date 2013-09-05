@@ -4,6 +4,7 @@ module IFRuby
   class Room < Entity
     attr_accessor :things
     attr_accessor :links
+    attr_accessor :visited
 
     def initialize(name)
       super(name)

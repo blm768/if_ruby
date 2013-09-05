@@ -3,11 +3,13 @@ require 'if_ruby/thing.rb'
 module IFRuby
   class Room < Entity
     attr_accessor :things
+    attr_accessor :links
 
     def initialize(name)
       super(name)
 
       @things = EntityGroup.new
+      @links = {}
     end
 
     def thing(name, &block)
@@ -25,6 +27,10 @@ module IFRuby
         desc << things.reject{ |m| m.is_a?(Player) }.en.conjunction
         desc << '.'
       end
+    end
+
+    def link(direction, other_room)
+      links[direction] = game.find_room(other_room)
     end
   end
 end

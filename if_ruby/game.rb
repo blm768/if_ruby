@@ -15,7 +15,6 @@ module IFRuby
 
     def initialize
       @parser = Parser.new(self)
-      @display = CursesDisplay.new
 
       @rooms = EntityGroup.new
       @player = Player.new
@@ -23,6 +22,8 @@ module IFRuby
       @required_files = Set.new
 
       Linguistics.use(:en)
+
+      self.require 'if_ruby/verbs.rb'
     end
 
     def require(filename)
@@ -33,15 +34,29 @@ module IFRuby
     end
 
     def run
+      @display = CursesDisplay.new
       @running = true
+      display.puts player.location.room_description
       while @running do
         command = display.gets
         parser.parse(command)
       end
+    ensure
+      @display.close() if @display
+      @display = nil
     end
 
     def quit
       @running = false
+    end
+
+    ##
+    #Finds a room by name
+    #
+    #If given a Room instead of a name, returns the Room
+    def find_room(room)
+      return room if room.is_a?(Room) || room == nil
+      rooms.find_unique(room)
     end
 
     def room(name, &block)

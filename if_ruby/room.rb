@@ -33,6 +33,7 @@ module IFRuby
         desc << non_player_things.en.conjunction
         desc << '.'
       end
+      desc
     end
 
     def link(other_room, direction)

@@ -52,6 +52,10 @@ module IFRuby
       end
       link
     end
+
+    def find_things(name)
+      things.find_all(name)
+    end
   end
 end
 

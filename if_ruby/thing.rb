@@ -28,6 +28,14 @@ module IFRuby
       end
     end
 
+    def room
+      if location.is_a?(Room)
+        location
+      else
+        location.room
+      end
+    end
+
     def adjective(*adjs)
       adjs.each do |adj|
         @adjectives.add(adj)

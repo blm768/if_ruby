@@ -12,6 +12,27 @@ end
 
 alias_verb 'look' => 'l'
 
+verb 'examine' do |words|
+  name = words[0]
+  unless name
+    display.puts 'Examine what?'
+    return
+  end
+  things = player.room.things.find_all(name)
+  if things.length == 0
+    display.puts "I don't see that here."
+    return
+  elsif things.length > 1
+    display.puts 'I see multiple objects with that description.'
+    return
+  end
+  things.each do |thing|
+    display.puts(thing.description)
+  end
+end
+
+alias_verb 'examine' => 'x'
+
 if true
   directions = [
     :north, :northeast, :east, :southeast,

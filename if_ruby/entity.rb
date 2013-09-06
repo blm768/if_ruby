@@ -107,6 +107,11 @@ module IFRuby
       end
     end
 
+    def find_all(name)
+      name = name.intern
+      self[name].clone || Set.new
+    end
+
     def members
       @names.keys
     end

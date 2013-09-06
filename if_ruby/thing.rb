@@ -27,6 +27,12 @@ module IFRuby
         @attributes.add(att.intern)
       end
     end
+
+    def adjective(*adjs)
+      adjs.each do |adj|
+        @adjectives.add(adj)
+      end
+    end
   end
 end
 

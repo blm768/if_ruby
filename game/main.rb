@@ -17,4 +17,5 @@ room 'Dungeon' do
 end
 
 player.location = library
+player.description 'You look the same as ever'
 

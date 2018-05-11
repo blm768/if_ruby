@@ -31,6 +31,7 @@ module IFRuby
 
       Linguistics.use(:en)
 
+      # TODO: don't hard-code this?
       self.require 'if_ruby/verbs.rb'
     end
 
@@ -75,8 +76,7 @@ module IFRuby
     end
 
     def verb(name, &block)
-      verb = Verb.new(name)
-      verb.execute = block
+      verb = Verb.new(name, &block)
       parser.add_verb(verb)
     end
     

@@ -16,15 +16,15 @@ verb 'examine' do |words|
   name = words[0]
   unless name
     display.puts 'Examine what?'
-    return
+    next
   end
   things = player.room.things.find_all(name)
   if things.length == 0
     display.puts "I don't see that here."
-    return
+    next
   elsif things.length > 1
     display.puts 'I see multiple objects with that description.'
-    return
+    next
   end
   things.each do |thing|
     display.puts(thing.description)

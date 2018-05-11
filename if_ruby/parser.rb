@@ -26,7 +26,7 @@ module IFRuby
         return
       end
       words = words[0 .. -1]
-      verb.execute.call(words)
+      verb.execute(words)
     end
 
     def add_verb(verb)
@@ -46,10 +46,12 @@ module IFRuby
 
   class Verb
     attr_reader :name
-    attr_accessor :execute
 
-    def initialize(name)
+    def initialize(name, &block)
       @name = name
+      self.define_singleton_method(:execute) do |words|
+        block.call(words)
+      end
     end
   end
 end

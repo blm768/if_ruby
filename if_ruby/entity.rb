@@ -1,6 +1,8 @@
 require 'set'
 
 module IFRuby
+  ##
+  # Represents a concrete or abstract entity in the game world
   class Entity
     attr_reader :name
     attr_reader :alt_names
@@ -12,9 +14,10 @@ module IFRuby
       @name = name.intern
       @alt_names = Set.new
     end
-    
+
     def description(value = nil, &block)
       if value && block
+        # TODO: raise a "real" exception.
         raise 'Description cannot be given as both a string and a block.'
       end
       if value
@@ -51,8 +54,6 @@ module IFRuby
       @owner = owner
     end
 
-    alias_method :modify, :instance_eval
-
     def [](name)
       return @members[name] || Set.new
     end
@@ -63,7 +64,7 @@ module IFRuby
     end
 
     ##
-    #Adds an entity under the provided name (utility method for #add)
+    # Adds an entity under the provided name (utility method for #add)
     #
     #The name should be a symbol.
     def add_with_name(entity, name)

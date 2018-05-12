@@ -60,9 +60,9 @@ module IFRuby
     end
 
     ##
-    #Finds a room by name
+    # Finds a room by name
     #
-    #If given a Room instead of a name, returns the Room
+    # If given a Room instead of a name, returns the Room
     def find_room(room)
       return room if room.is_a?(Room) || room == nil
       rooms.find_unique(room.to_s)

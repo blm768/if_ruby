@@ -44,7 +44,7 @@ module IFRuby
     def get_link(direction)
       link = links[direction]
       return unless link
-      #If the link is stored as a string, convert it to a room.
+      # If the link is given as a string or symbol, convert it to a room.
       unless link.is_a?(Room)
         link = game.find_room(link)
         raise %{Unable to find room "#{link}"} unless link
